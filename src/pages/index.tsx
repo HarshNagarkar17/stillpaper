@@ -1,11 +1,13 @@
 import LoadingState from "@/components/LoadingSkeleton";
 import TextEditor from "@/components/TextEditor";
+import Toolbar from "@/components/Toolbar";
 import ToolbarToggle from "@/components/ToolbarToggle";
 import { useNotesManagement } from "@/hooks/useNotesManagement";
 import { useUserPreferences } from "@/hooks/useUserPreferences";
 
 const Index = () => {
-  const { isLoading, currentNote } = useNotesManagement();
+  const { isLoading, currentNote, setFontStyle, randomizeStyle } =
+    useNotesManagement();
   const { preferences, toggleToolbarHidden } = useUserPreferences();
 
   return (
@@ -24,6 +26,14 @@ const Index = () => {
             toggleToolbar={toggleToolbarHidden}
           />
         </>
+      )}
+
+      {!preferences.toolbarHidden && currentNote && (
+        <Toolbar
+          setFontStyle={setFontStyle}
+          currentNote={currentNote}
+          randomizeStyle={randomizeStyle}
+        />
       )}
     </div>
   );

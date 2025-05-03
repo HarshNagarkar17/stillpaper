@@ -34,8 +34,53 @@ export function useNotesManagement() {
     loadIntialNote();
   }, []);
 
+  const setFontStyle = async ({
+    fontFamily,
+    fontSize,
+  }: {
+    fontFamily: string;
+    fontSize: number;
+  }) => {
+    try {
+      if (!fontFamily && !fontSize) return;
+
+      if (typeof fontFamily !== "string" && typeof fontSize !== "number")
+        return;
+
+      const updatedNote = {
+        ...currentNote,
+        fontFamily,
+        fontSize,
+      };
+
+      const db = NotesDB.getInstance();
+      await db.saveNote(updatedNote);
+      setCurrentNote(updatedNote);
+    } catch (error) {
+      toast.error("Failed to change font style");
+    }
+  };
+
+  const randomizeStyle = () => {
+    const fonts = [
+      "sans",
+      "serif",
+      "mono",
+      "playfair",
+      "roboto",
+      "merriweather",
+      "sourcecodepro",
+    ];
+    const sizes = [16, 18, 20, 22];
+    const randomFont = fonts[Math.floor(Math.random() * fonts.length)];
+    const randomSize = sizes[Math.floor(Math.random() * sizes.length)];
+
+    setFontStyle({ fontFamily: randomFont, fontSize: randomSize });
+  };
   return {
     isLoading,
     currentNote,
+    setFontStyle,
+    randomizeStyle,
   };
 }
