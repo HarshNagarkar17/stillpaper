@@ -6,6 +6,7 @@ import { TimeDisplay } from "./TimeDisplay";
 import { useFullscreen } from "@/hooks/useFullscreen";
 import { FullscreenToggle } from "./FullScreenToggle";
 import { NewEntryButton } from "./NewEntryButton";
+import { DarkModeToggle } from "./DarkModeToggle";
 
 const Toolbar = ({
   currentNote,
@@ -56,7 +57,14 @@ const Toolbar = ({
               toggleFullscreen={toggleFullscreen}
             />
             <NewEntryButton createNewEntry={createNewNote} />
-            <NewEntryButton createNewEntry={createNewNote} />
+            <DarkModeToggle
+              isDarkMode={isDarkMode}
+              toggleDarkMode={toggleDarkMode}
+            />
+            <DarkModeToggle
+              isDarkMode={isDarkMode}
+              toggleDarkMode={toggleDarkMode}
+            />
           </div>
         </>
       )}
