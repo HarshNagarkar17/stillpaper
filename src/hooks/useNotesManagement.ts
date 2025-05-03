@@ -77,10 +77,34 @@ export function useNotesManagement() {
 
     setFontStyle({ fontFamily: randomFont, fontSize: randomSize });
   };
+
+  const createNewNote = async () => {
+    try {
+      console.log(currentNote?.content);
+      if (currentNote && currentNote.content.trim().length < 1) return;
+      console.log("creating", currentNote.content.trim().length);
+      const db = NotesDB.getInstance();
+      const newNote = db.createNote({
+        fontFamily: "sans",
+        fontSize: 18,
+        title: "Untitled Note",
+      });
+
+      if (newNote) {
+        setCurrentNote(newNote);
+      }
+
+      await db.saveNote(newNote);
+    } catch (error) {
+      toast.error("Failed to create new note!");
+    }
+  };
   return {
     isLoading,
     currentNote,
     setFontStyle,
     randomizeStyle,
+    createNewNote,
+    setCurrentNote,
   };
 }

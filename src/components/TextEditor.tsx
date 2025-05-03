@@ -9,9 +9,15 @@ interface Props {
   currentNote: Note;
   isDarkMode: boolean;
   toolbarHidden: boolean;
+  setCurrentNote: (note: Note) => void;
 }
 
-const TextEditor = ({ currentNote, isDarkMode, toolbarHidden }: Props) => {
+const TextEditor = ({
+  currentNote,
+  isDarkMode,
+  toolbarHidden,
+  setCurrentNote,
+}: Props) => {
   const [text, setText] = useState<string>("");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const toast = useToast();
@@ -19,11 +25,10 @@ const TextEditor = ({ currentNote, isDarkMode, toolbarHidden }: Props) => {
   useEffect(() => {
     if (currentNote) setText(currentNote.content);
     if (textareaRef.current) textareaRef.current.focus();
-  }, [currentNote]);
+  }, [currentNote.id]);
 
   const saveChanges = debounce(async (content: string) => {
     if (!currentNote) return;
-
     try {
       const updatedNote: Note = {
         ...currentNote,
@@ -39,6 +44,7 @@ const TextEditor = ({ currentNote, isDarkMode, toolbarHidden }: Props) => {
       }
       const db = NotesDB.getInstance();
       await db.saveNote(updatedNote);
+      setCurrentNote(updatedNote);
     } catch (error) {
       toast.error("Failed to save note!");
     }
