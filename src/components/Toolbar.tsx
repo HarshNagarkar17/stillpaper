@@ -38,7 +38,28 @@ const Toolbar = ({
   return (
     <div className="toolbar opacity-70 hover:opacity-100">
       {isMobile ? (
-        <div className="flex flex-wrap justify-between w-full gap-1 px-1"></div>
+        <div className="flex flex-wrap justify-between w-full gap-1 px-1">
+          <div className="flex items-center gap-1">
+            <NewEntryButton createNewEntry={createNewNote} />
+          </div>
+
+          <div className="flex items-center gap-1">
+            <FontStyleToggle
+              fontSize={currentNote.fontSize}
+              fontFamily={currentNote.fontFamily}
+              setFontFamily={setFontFamily}
+              setFontSize={setFontSize}
+            />
+            <StyleToggle randomizeStyle={randomizeStyle} />
+          </div>
+
+          <div className="flex items-center gap-1">
+            <DarkModeToggle
+              isDarkMode={isDarkMode}
+              toggleDarkMode={toggleDarkMode}
+            />
+          </div>
+        </div>
       ) : (
         <>
           <div className="flex items-center space-x-4">
